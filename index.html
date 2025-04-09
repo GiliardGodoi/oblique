@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estratégias Oblíquas para Pesquisa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-100 to-white min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="bg-white shadow-xl rounded-2xl p-8 max-w-xl w-full text-center">
+    <h1 class="text-2xl font-bold text-indigo-700 mb-6">Estratégia Oblíqua para sua Pesquisa</h1>
+    <p id="card" class="text-lg italic text-gray-700 min-h-[4rem]">Clique abaixo para se inspirar...</p>
+    <button onclick="novaEstrategia()" class="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition">Nova Estratégia</button>
+  </div>
+
+  <script>
+    let estrategias = [];
+
+    async function carregarEstrategias() {
+      try {
+        const resposta = await fetch('estrategias.json');
+        estrategias = await resposta.json();
+      } catch (erro) {
+        console.error('Erro ao carregar estratégias:', erro);
+        estrategias = ["Não foi possível carregar as estratégias. Verifique o arquivo JSON."];
+      }
+    }
+
+    async function novaEstrategia() {
+      if (estrategias.length === 0) {
+        await carregarEstrategias();
+      }
+      const escolha = estrategias[Math.floor(Math.random() * estrategias.length)];
+      document.getElementById('card').innerText = escolha;
+    }
+
+    // Carrega as estratégias ao iniciar
+    carregarEstrategias();
+  </script>
+</body>
+</html>
